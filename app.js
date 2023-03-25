@@ -6,6 +6,10 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var itemsRouter = require('./routes/items');
+
+require('dotenv').config()
+const mongoose = require('mongoose');
 
 var app = express();
 
@@ -21,6 +25,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/inventory', itemsRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -38,4 +44,13 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+mongoose.set('strictQuery',false);
+// mongo connection: 
+const dev_db_url = "mongodb+srv://your_user_name:your_password@cluster0.lz91hw2.mongodb.net/local_library?retryWrites=true&w=majority";
+const dbString = process.env.MONGO_URI  || dev_db_url;
+main().catch(err => console.log(err));
+
+async function main() {
+  await mongoose.connect(dbString);
+}
 module.exports = app;
