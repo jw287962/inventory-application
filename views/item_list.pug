@@ -1,0 +1,15 @@
+extend layout
+
+block content 
+  div
+    each item in items 
+      div.item
+        h2
+          a(href=item.URL) #[strong #{item.name}]
+        p Category: #{item.category.name}
+        p Price: $#{item.price}
+        p Description: #{item.description}
+        p=item.url
+        
+        
+    
